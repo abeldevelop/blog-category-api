@@ -1,5 +1,7 @@
 package com.abeldevelop.blog.blogcategoryapi.resource;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -32,5 +34,13 @@ public class PaginationResponseResource {
 	
 	@ApiModelProperty(notes="Total of elements", example="100", required = true, position = 4)
 	private long totalElements;
+
+	@ApiModelProperty(notes="Indicate if is the first page", example="true", required = true, position = 5)
+	@JsonProperty("isFirst")
+	private boolean first;
+	
+	@ApiModelProperty(notes="Indicate if is the last page", example="false", required = true, position = 6)
+	@JsonProperty("isLast")
+	private boolean last;
 	
 }
