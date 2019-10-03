@@ -28,7 +28,7 @@ public class SpringFoxConfiguration {
 	/**
 	 * Take the version from the POM
 	 */
-	@Value("${app.version}")
+	@Value("${application.version}")
 	private String projectVersion;
 	
 	public static final String API_RESPONSE_CODE_200_MESSAGE = "Successful operation";
