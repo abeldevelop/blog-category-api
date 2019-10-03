@@ -1,17 +1,19 @@
-package com.abeldevelop.blog.blogcategoryapi.exception;
+package com.abeldevelop.blog.blogcategoryapi.exception.client.custom;
 
 import java.util.List;
 
-public class PaginationPageException extends RuntimeException {
+import com.abeldevelop.blog.blogcategoryapi.exception.client.BadRequestException;
 
-	private static final long serialVersionUID = -7335321389018695434L;
+public class PaginationPageException extends BadRequestException {
+
+	private static final long serialVersionUID = -7238073841537015251L;
 
 	public PaginationPageException(String message) {
 		super(message);
 	}
 	
 	public PaginationPageException(String message, List<Object> arguments) {
-		super(message);
+		super(message, arguments);
 	}
 	
 	public PaginationPageException(String message, Throwable cause) {
@@ -19,7 +21,7 @@ public class PaginationPageException extends RuntimeException {
 	}
 	
 	public PaginationPageException(String message, Throwable cause, List<Object> arguments) {
-		super(message, cause);
+		super(message, arguments, cause);
 	}
 	
 }

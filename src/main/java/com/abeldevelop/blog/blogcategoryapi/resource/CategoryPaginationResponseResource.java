@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.abeldevelop.blog.blogcategoryapi.component.ErrorMessageProperties;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -24,8 +26,8 @@ import lombok.ToString;
 public class CategoryPaginationResponseResource {
 
 	@ApiModelProperty(notes="Resource with pagination information", required = true, position = 0)
-	@NotNull(message="The pagination cannot be null")
-	private PaginationResponseResource pagination;	
+	@NotNull(message=ErrorMessageProperties.CATEGORY_PAGINATION_RESPONSE_RESOURCE_PAGINATION_RESPONSE_RESOURCE_NOT_NULL)
+	private PaginationResponseResource pagination;
 
 	@ApiModelProperty(notes="List of categories", required = true, position = 1)
 	@Singular
