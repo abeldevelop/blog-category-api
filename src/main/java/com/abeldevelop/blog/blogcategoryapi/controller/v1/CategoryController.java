@@ -47,7 +47,6 @@ public class CategoryController {
 	private static final String EXECUTE_FIND_BY_CODE_METHOD_NAME = "executeFindByCode";
 	private static final String EXECUTE_FIND_ALL_METHOD_NAME = "executeFindAll";
 	
-	//TODO Check if can use @ApiImplicitParams
 	@ApiOperation(value = "Create new category")
 	@ApiResponses({ 
 		@ApiResponse(code = 201, response = CategoryResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_201_MESSAGE), 
@@ -68,7 +67,6 @@ public class CategoryController {
 		throw new UnsupportedOperationException("Not implemented, yet");
 	}
 	
-	//TODO Check if can use @ApiImplicitParams
 	@ApiOperation(value = "Update a category")
 	@ApiResponses({ 
 		@ApiResponse(code = 200, response = CategoryResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_200_MESSAGE), 
@@ -92,7 +90,6 @@ public class CategoryController {
 		throw new UnsupportedOperationException("Not implemented, yet");
 	}
 	
-	//TODO Check if can use @ApiImplicitParams
 	@ApiOperation(value = "Delete a category")
 	@ApiResponses({ 
 		@ApiResponse(code = 204, response = CategoryResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_204_MESSAGE), 
@@ -112,7 +109,6 @@ public class CategoryController {
 		throw new UnsupportedOperationException("Not implemented, yet");
 	}
 
-	//TODO Check if can use @ApiImplicitParams
 	@ApiOperation(value = "Find category by code")
 	@ApiResponses({ 
 		@ApiResponse(code = 200, response = CategoryResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_200_MESSAGE), 
