@@ -56,4 +56,13 @@ public class CategoryMapperTest {
 
 		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
 	}
+	
+	@Test
+	public void mapEntityToDomainTest() {
+		Category expectedResutl = Category.of("first-category", "First Category");
+		
+		Category result = categoryMapper.mapEntityToDomain(CategoryEntity.builder().code("first-category").name("First Category").build());
+		
+		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+	}
 }

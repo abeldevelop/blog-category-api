@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abeldevelop.blog.blogcategoryapi.config.SpringFoxConfiguration;
+import com.abeldevelop.blog.blogcategoryapi.mapper.CategoryMapper;
 import com.abeldevelop.blog.blogcategoryapi.resource.CategoryPaginationResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CategoryResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CreateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.UpdateCategoryRequestResource;
+import com.abeldevelop.blog.blogcategoryapi.service.v1.CreateCategoryService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -47,6 +49,9 @@ public class CategoryController {
 	private static final String EXECUTE_FIND_BY_CODE_METHOD_NAME = "executeFindByCode";
 	private static final String EXECUTE_FIND_ALL_METHOD_NAME = "executeFindAll";
 	
+	private final CategoryMapper categoryMapper;
+	private final CreateCategoryService createCategoryService;
+	
 	@ApiOperation(value = "Create new category")
 	@ApiResponses({ 
 		@ApiResponse(code = 201, response = CategoryResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_201_MESSAGE), 
@@ -59,12 +64,11 @@ public class CategoryController {
 		
 		log.info(LOG_DATA_IN + "createCategoryRequestResource: {}", EXECUTE_CREATE_METHOD_NAME, createCategoryRequestResource);
 		
-		//TODO Call the service to create a category
-		CategoryResponseResource categoryResponseResource = null;
+		CategoryResponseResource categoryResponseResource = categoryMapper.mapDomainToResource(createCategoryService.executeCreate(categoryMapper.mapResourceToDomain(createCategoryRequestResource)));
 		
 		log.info(LOG_DATA_OUT + "categoryResponseResource: {}", EXECUTE_CREATE_METHOD_NAME, categoryResponseResource);
 		
-		throw new UnsupportedOperationException("Not implemented, yet");
+		return categoryResponseResource;
 	}
 	
 	@ApiOperation(value = "Update a category")
