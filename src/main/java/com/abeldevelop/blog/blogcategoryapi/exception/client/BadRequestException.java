@@ -12,19 +12,19 @@ public class BadRequestException extends AbelDevelopException {
 
 	private static final HttpStatus STATUS = HttpStatus.BAD_REQUEST;
 	
-	public BadRequestException(String message) {
+	protected BadRequestException(String message) {
 		super(message, STATUS);
 	}
 
-	public BadRequestException(String message, List<Object> arguments) {
+	protected BadRequestException(String message, List<Object> arguments) {
 		super(message, STATUS, arguments);
 	}
 	
-	public BadRequestException(String message, Throwable cause) {
+	protected BadRequestException(String message, Throwable cause) {
 		super(message, STATUS, cause);
 	}
 	
-	public BadRequestException(String message, List<Object> arguments, Throwable cause) {
+	protected BadRequestException(String message, List<Object> arguments, Throwable cause) {
 		super(message, STATUS, arguments, cause);
 	}
 }

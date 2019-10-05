@@ -12,19 +12,19 @@ public class NotFoundException extends AbelDevelopException {
 
 	private static final HttpStatus STATUS = HttpStatus.NOT_FOUND;
 
-	public NotFoundException(String message) {
+	protected NotFoundException(String message) {
 		super(message, STATUS);
 	}
 
-	public NotFoundException(String message, List<Object> arguments) {
+	protected NotFoundException(String message, List<Object> arguments) {
 		super(message, STATUS, arguments);
 	}
 
-	public NotFoundException(String message, Throwable cause) {
+	protected NotFoundException(String message, Throwable cause) {
 		super(message, STATUS, cause);
 	}
 
-	public NotFoundException(String message, List<Object> arguments, Throwable cause) {
+	protected NotFoundException(String message, List<Object> arguments, Throwable cause) {
 		super(message, STATUS, arguments, cause);
 	}
 }

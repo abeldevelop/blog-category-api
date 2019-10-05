@@ -13,19 +13,19 @@ public class InternalServerErrorException extends AbelDevelopException {
 	
 	private static final HttpStatus STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
 
-	public InternalServerErrorException(String message) {
+	protected InternalServerErrorException(String message) {
 		super(message, STATUS);
 	}
 
-	public InternalServerErrorException(String message, List<Object> arguments) {
+	protected InternalServerErrorException(String message, List<Object> arguments) {
 		super(message, STATUS, arguments);
 	}
 
-	public InternalServerErrorException(String message, Throwable cause) {
+	protected InternalServerErrorException(String message, Throwable cause) {
 		super(message, STATUS, cause);
 	}
 
-	public InternalServerErrorException(String message, List<Object> arguments, Throwable cause) {
+	protected InternalServerErrorException(String message, List<Object> arguments, Throwable cause) {
 		super(message, STATUS, arguments, cause);
 	}
 }

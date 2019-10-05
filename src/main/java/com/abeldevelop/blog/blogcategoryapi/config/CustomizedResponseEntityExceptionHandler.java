@@ -31,26 +31,19 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 private static final String ERROR_LOG_PREFIX = "ErrorResponseResource: {}";
 	
 	@Value("${add-exception-sensitive-information}")
-	private boolean addExceptionSensitiveInformation;
+	protected boolean addExceptionSensitiveInformation;
 	
 	private final ErrorMessages errorMessages;
 	private final StackTraceMapper stackTraceMapper;
 	
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-		ResponseEntity<Object> responseEntityError = handleResponseException(ex, HttpStatus.INTERNAL_SERVER_ERROR);
-		log.error(ERROR_LOG_PREFIX, responseEntityError.getBody());
-		return responseEntityError;
-	}
-	
-	@ExceptionHandler(AbelDevelopException.class)
-	public final ResponseEntity<Object> handleNotFoundException(AbelDevelopException ex, WebRequest request) {
-		ResponseEntity<Object> responseEntityError = handleResponseException(ex, ex.getStatus());
-		if(ex.getStatus().equals(HttpStatus.INTERNAL_SERVER_ERROR)) {
-			log.error(ERROR_LOG_PREFIX, responseEntityError.getBody());
-		} else {
-			log.warn(ERROR_LOG_PREFIX, responseEntityError.getBody());
+		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+		if(ex instanceof AbelDevelopException) {
+			status = ((AbelDevelopException) ex).getStatus();
 		}
+		ResponseEntity<Object> responseEntityError = handleResponseException(ex, status);
+		log.error(ERROR_LOG_PREFIX, responseEntityError.getBody());
 		return responseEntityError;
 	}
 	
@@ -83,13 +76,12 @@ private static final String ERROR_LOG_PREFIX = "ErrorResponseResource: {}";
 		return MessageFormatter.arrayFormat(getMessageFromProperties(message), arguments.toArray()).getMessage();
 	}
 	
-	private void addSensitiveInformation(Object ex, ErrorResponseResourceBuilder errorResponseResourceBuilder) {
-		if(ex instanceof Exception && addExceptionSensitiveInformation) {
-			Exception exception = (Exception) ex;
+	private void addSensitiveInformation(Exception exception, ErrorResponseResourceBuilder errorResponseResourceBuilder) {
+		if(addExceptionSensitiveInformation) {
 			if(exception.getCause() instanceof Exception) {
 				errorResponseResourceBuilder.cause(createErrorResponseResource((Exception) exception.getCause(), HttpStatus.INTERNAL_SERVER_ERROR));
 			}
-			errorResponseResourceBuilder.detail(ex.getClass().getCanonicalName());
+			errorResponseResourceBuilder.detail(exception.getClass().getCanonicalName());
 			errorResponseResourceBuilder.stackTrace(stackTraceMapper.map(exception.getStackTrace()));
 		}
 	}
