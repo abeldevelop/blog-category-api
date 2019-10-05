@@ -20,6 +20,9 @@ public class ErrorMessageProperties implements ErrorMessages {
 	
 	public static final String PAGINATION_MIN_PAGE_ERROR = "paginationMinPageError";
 	public static final String PAGINATION_MIN_SIZE_ERROR = "paginationMinSizeError";
+	
+	public static final String CATEGORY_CODE_EXIST = "categoryCodeExist";
+	
 	private Map<String, String> errorMessages;
 	
 	@Override
@@ -52,6 +55,8 @@ public class ErrorMessageProperties implements ErrorMessages {
 
 		errorMessages.put(PAGINATION_MIN_PAGE_ERROR, "The page number can not be less than {}");
 		errorMessages.put(PAGINATION_MIN_SIZE_ERROR, "The page size can not be less than {}");
+		
+		errorMessages.put(CATEGORY_CODE_EXIST, "There is already a category with the name: {}");
 		
 	}
 }

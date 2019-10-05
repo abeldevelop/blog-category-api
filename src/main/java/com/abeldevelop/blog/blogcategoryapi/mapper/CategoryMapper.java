@@ -33,10 +33,18 @@ public class CategoryMapper {
 				.build();
 	}
 	
+	public Category mapEntityToDomain(CategoryEntity categoryEntity) {
+		return Category.builder()
+				.code(categoryEntity.getCode())
+				.name(categoryEntity.getName())
+				.build();
+	}
+	
 	public CategoryResponseResource mapDomainToResource(Category category) {
 		return CategoryResponseResource.builder()
 				.code(category.getCode())
 				.name(category.getName())
 				.build();
 	}
+	
 }
