@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.abeldevelop.blog.blogcategoryapi.component.ErrorMessageProperties;
 import com.abeldevelop.blog.blogcategoryapi.util.CategoryApiConstants;
 
 import lombok.AllArgsConstructor;
@@ -30,11 +31,11 @@ public class CategoryEntity {
 	@EqualsAndHashCode.Include
 	@Id
 	@Column(name = "code", nullable = false, unique = true)
-	@Size(min = 3, max = 25, message = "The category name must be between 3 and 25 characters")
+	@Size(min = 3, max = 25, message = ErrorMessageProperties.CATEGORY_CODE_SIZE)
 	private String code;
 	
 	@Column(name = "name", nullable = false, unique = true)
-	@Size(min = 3, max = 25, message = "The category code must be between 3 and 25 characters")
+	@Size(min = 3, max = 25, message = ErrorMessageProperties.CATEGORY_NAME_SIZE)
 	private String name;
 	
 }

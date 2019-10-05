@@ -4,18 +4,16 @@ import java.util.Arrays;
 
 import org.springframework.stereotype.Component;
 
+import com.abeldevelop.blog.blogcategoryapi.component.ErrorMessageProperties;
 import com.abeldevelop.blog.blogcategoryapi.domain.PaginationRequest;
 import com.abeldevelop.blog.blogcategoryapi.domain.PaginationResponse;
-import com.abeldevelop.blog.blogcategoryapi.exception.PaginationPageException;
-import com.abeldevelop.blog.blogcategoryapi.exception.PaginationSizeException;
+import com.abeldevelop.blog.blogcategoryapi.exception.client.custom.PaginationPageException;
+import com.abeldevelop.blog.blogcategoryapi.exception.client.custom.PaginationSizeException;
 import com.abeldevelop.blog.blogcategoryapi.resource.PaginationResponseResource;
 
 @Component
 public class PaginationMapper {
 
-	private static final String PAGINATION_MIN_PAGE_ERROR = "The page number can not be less than {}";
-	private static final String PAGINATION_MIN_SIZE_ERROR = "The page size can not be less than {}";
-	
 	private static final Integer DEFAULT_PAGE_NUMBER = 0;
 	private static final Integer DEFAULT_PAGE_SIZE = 10;
 	private static final Integer MIN_PAGE = 1;
@@ -47,7 +45,7 @@ public class PaginationMapper {
 		if(page == null) {
 			return DEFAULT_PAGE_NUMBER;
 		} else if(page.intValue() < MIN_PAGE) {
-			throw new PaginationPageException(PAGINATION_MIN_PAGE_ERROR, Arrays.asList(MIN_PAGE));
+			throw new PaginationPageException(ErrorMessageProperties.PAGINATION_MIN_PAGE_ERROR, Arrays.asList(MIN_PAGE));
 		} else {
 			return page - SUBTRACT_NUMBER_TO_PAGE;
 		}
@@ -57,7 +55,7 @@ public class PaginationMapper {
 		if(size == null) {
 			return DEFAULT_PAGE_SIZE;
 		} else if(size.intValue() < MIN_PAGE_SIZE) {
-			throw new PaginationSizeException(PAGINATION_MIN_SIZE_ERROR, Arrays.asList(MIN_PAGE_SIZE));
+			throw new PaginationSizeException(ErrorMessageProperties.PAGINATION_MIN_SIZE_ERROR, Arrays.asList(MIN_PAGE_SIZE));
 		} else {
 			return size;
 		}
