@@ -20,7 +20,7 @@ public class ErrorMessagePropertiesTest {
 	@Test
 	public void getErrorMessageFoundTest() {
 		
-		Optional<String> expectedResutl = Optional.of("The category code cannot be null");
+		Optional<String> expectedResutl = Optional.of("The category code is mandatory");
 		
 		Optional<String> result = errorMessage.getErrorMessage("categoryCodeNotNull");
 		

@@ -16,6 +16,7 @@ import com.abeldevelop.blog.blogcategoryapi.resource.CreateCategoryRequestResour
 import com.abeldevelop.blog.blogcategoryapi.resource.UpdateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.CreateCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.DeleteCategoryService;
+import com.abeldevelop.blog.blogcategoryapi.service.v1.FindCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.UpdateCategoryService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,11 +34,14 @@ public class CategoryControllerTest {
 	@Mock
 	private DeleteCategoryService deleteCategoryService;
 	
+	@Mock
+	private FindCategoryService findCategoryService;
+	
 	CategoryController categoryController;
 	
 	@Before
 	public void setUp() {
-		categoryController = new CategoryController(categoryMapper, createCategoryService, updateCategoryService, deleteCategoryService);
+		categoryController = new CategoryController(categoryMapper, createCategoryService, updateCategoryService, deleteCategoryService, findCategoryService);
 	}
 	
 	@Test
@@ -93,9 +97,20 @@ public class CategoryControllerTest {
 		
 	}
 	
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void executeFindByCodeTestOk() {
-		categoryController.executeFindByCode("first-category");
+		//given
+		CategoryResponseResource expectedResutl = CategoryResponseResource.builder().code("first-category").name("First Category").build();
+		Category category = Category.builder().code("first-category").name("First Category").build();
+		
+		//when
+		Mockito.when(categoryMapper.mapDomainToResource(Mockito.any(Category.class))).thenReturn(expectedResutl);
+		Mockito.when(findCategoryService.executeFindByCode(Mockito.anyString())).thenReturn(category);
+		
+		CategoryResponseResource result = categoryController.executeFindByCode("first-category");
+		
+		//then
+		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)
