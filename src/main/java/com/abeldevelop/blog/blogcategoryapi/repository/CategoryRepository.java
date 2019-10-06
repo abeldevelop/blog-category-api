@@ -10,4 +10,6 @@ public interface CategoryRepository {
 	
 	public Optional<CategoryEntity> executeFindById(String id);
 	
+	public void executeDeleteById(String code);
+	
 }

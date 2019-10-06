@@ -15,6 +15,7 @@ import com.abeldevelop.blog.blogcategoryapi.resource.CategoryResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CreateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.UpdateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.CreateCategoryService;
+import com.abeldevelop.blog.blogcategoryapi.service.v1.UpdateCategoryService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CategoryControllerTest {
@@ -25,11 +26,15 @@ public class CategoryControllerTest {
 	@Mock
 	private CreateCategoryService createCategoryService;
 
+	@Mock
+	private UpdateCategoryService updateCategoryService;
+	
+	
 	CategoryController categoryController;
 	
 	@Before
 	public void setUp() {
-		categoryController = new CategoryController(categoryMapper, createCategoryService);
+		categoryController = new CategoryController(categoryMapper, createCategoryService, updateCategoryService);
 	}
 	
 	@Test
@@ -51,10 +56,24 @@ public class CategoryControllerTest {
 		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
 	}
 	
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void executeUpdateTestOk() {
-		UpdateCategoryRequestResource updateCategoryRequestResource = UpdateCategoryRequestResource.builder().name("First Category").build();
-		categoryController.executeUpdate("first-category", updateCategoryRequestResource);
+		//given
+		CategoryResponseResource expectedResutl = CategoryResponseResource.builder().code("updated-category").name("Updated Category").build();
+		UpdateCategoryRequestResource updateCategoryRequestResource = UpdateCategoryRequestResource.builder().name("Updated Category").build();
+		String code = "first-category";
+		Category category = Category.builder().code("updated-category").name("Updated Category").build();
+		
+		//when
+		Mockito.when(categoryMapper.mapResourceToDomain(Mockito.any(UpdateCategoryRequestResource.class))).thenReturn(category);
+		Mockito.when(categoryMapper.mapDomainToResource(Mockito.any(Category.class))).thenReturn(expectedResutl);
+		Mockito.when(updateCategoryService.executeUpdate(Mockito.anyString(), Mockito.any(Category.class))).thenReturn(category);
+		
+		CategoryResponseResource result = categoryController.executeUpdate(code, updateCategoryRequestResource);
+		
+		//then
+		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)

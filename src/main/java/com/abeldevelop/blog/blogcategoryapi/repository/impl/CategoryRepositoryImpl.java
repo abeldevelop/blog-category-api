@@ -26,4 +26,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 		return categorySpringDataRepository.findById(id);
 	}
 	
+	@Override
+	public void executeDeleteById(String code) {
+		categorySpringDataRepository.deleteById(code);
+	}
 }
