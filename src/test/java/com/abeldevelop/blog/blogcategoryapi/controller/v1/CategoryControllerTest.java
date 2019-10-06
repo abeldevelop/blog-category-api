@@ -15,6 +15,7 @@ import com.abeldevelop.blog.blogcategoryapi.resource.CategoryResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CreateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.UpdateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.CreateCategoryService;
+import com.abeldevelop.blog.blogcategoryapi.service.v1.DeleteCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.UpdateCategoryService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,12 +30,14 @@ public class CategoryControllerTest {
 	@Mock
 	private UpdateCategoryService updateCategoryService;
 	
+	@Mock
+	private DeleteCategoryService deleteCategoryService;
 	
 	CategoryController categoryController;
 	
 	@Before
 	public void setUp() {
-		categoryController = new CategoryController(categoryMapper, createCategoryService, updateCategoryService);
+		categoryController = new CategoryController(categoryMapper, createCategoryService, updateCategoryService, deleteCategoryService);
 	}
 	
 	@Test
@@ -76,9 +79,18 @@ public class CategoryControllerTest {
 		
 	}
 	
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void executeDeleteTestOk() {
+		//given
+		
+		//when
+		Mockito.doNothing().when(deleteCategoryService).executeDeleteByCode(Mockito.anyString());
+		
 		categoryController.executeDelete("first-category");
+		
+		//then
+		Mockito.verify(deleteCategoryService, Mockito.times(1)).executeDeleteByCode(Mockito.anyString());
+		
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)
