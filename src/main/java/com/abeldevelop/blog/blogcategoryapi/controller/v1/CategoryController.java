@@ -22,6 +22,7 @@ import com.abeldevelop.blog.blogcategoryapi.resource.CreateCategoryRequestResour
 import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.UpdateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.CreateCategoryService;
+import com.abeldevelop.blog.blogcategoryapi.service.v1.DeleteCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.UpdateCategoryService;
 
 import io.swagger.annotations.Api;
@@ -53,6 +54,8 @@ public class CategoryController {
 	private final CategoryMapper categoryMapper;
 	private final CreateCategoryService createCategoryService;
 	private final UpdateCategoryService updateCategoryService;
+	private final DeleteCategoryService deleteCategoryService;
+	
 	
 	@ApiOperation(value = "Create new category")
 	@ApiResponses({ 
@@ -103,15 +106,13 @@ public class CategoryController {
 	})
 	@DeleteMapping("/{code}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public CategoryResponseResource executeDelete(@ApiParam(name="code", value="Code of the category", required = true, example="first-category") @PathVariable("code") String code) {
+	public void executeDelete(@ApiParam(name="code", value="Code of the category", required = true, example="first-category") @PathVariable("code") String code) {
 		
 		log.info(LOG_DATA_IN + "code: {}", EXECUTE_DELETE_METHOD_NAME, code);
 
-		//TODO Call the service to delete a category
+		deleteCategoryService.executeDeleteByCode(code);
 		
 		log.info(LOG_DATA_OUT, EXECUTE_DELETE_METHOD_NAME);
-		
-		throw new UnsupportedOperationException("Not implemented, yet");
 	}
 
 	@ApiOperation(value = "Find category by code")
