@@ -2,6 +2,8 @@ package com.abeldevelop.blog.blogcategoryapi.controller.v1;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +12,16 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.abeldevelop.blog.blogcategoryapi.domain.Category;
+import com.abeldevelop.blog.blogcategoryapi.domain.PageRequest;
+import com.abeldevelop.blog.blogcategoryapi.domain.PaginationRequest;
+import com.abeldevelop.blog.blogcategoryapi.domain.PaginationResponse;
+import com.abeldevelop.blog.blogcategoryapi.domain.PaginationResult;
 import com.abeldevelop.blog.blogcategoryapi.mapper.CategoryMapper;
+import com.abeldevelop.blog.blogcategoryapi.mapper.PaginationMapper;
+import com.abeldevelop.blog.blogcategoryapi.resource.CategoryPaginationResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CategoryResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CreateCategoryRequestResource;
+import com.abeldevelop.blog.blogcategoryapi.resource.PaginationResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.UpdateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.CreateCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.DeleteCategoryService;
@@ -22,9 +31,6 @@ import com.abeldevelop.blog.blogcategoryapi.service.v1.UpdateCategoryService;
 @RunWith(MockitoJUnitRunner.class)
 public class CategoryControllerTest {
 
-	@Mock
-	private CategoryMapper categoryMapper;
-	
 	@Mock
 	private CreateCategoryService createCategoryService;
 
@@ -36,12 +42,18 @@ public class CategoryControllerTest {
 	
 	@Mock
 	private FindCategoryService findCategoryService;
+
+	@Mock
+	private CategoryMapper categoryMapper;
+	
+	@Mock
+	private PaginationMapper paginationMapper;
 	
 	CategoryController categoryController;
 	
 	@Before
 	public void setUp() {
-		categoryController = new CategoryController(categoryMapper, createCategoryService, updateCategoryService, deleteCategoryService, findCategoryService);
+		categoryController = new CategoryController(createCategoryService, updateCategoryService, deleteCategoryService, findCategoryService, categoryMapper, paginationMapper);
 	}
 	
 	@Test
@@ -113,8 +125,35 @@ public class CategoryControllerTest {
 		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
 	}
 	
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void executeFindAllTestOk() {
-		categoryController.executeFindAll(null, null, null);
+		
+		//given
+//		PaginationResponseResource paginationResponseResourceResult = PaginationResponseResource.builder().page(1).size(10).numberOfElements(1).totalPages(1).totalElements(1).first(true).last(true).build();
+//		CategoryResponseResource categoryResult = CategoryResponseResource.builder().code("first-category").name("First Category").build();
+//		CategoryPaginationResponseResource expectedResult = CategoryPaginationResponseResource.builder()
+//				.pagination(paginationResponseResourceResult)
+//				.category(categoryResult)
+//				.build();
+//		PaginationRequest paginationRequest = PaginationRequest.builder().page(0).size(10).build();
+//		PaginationResult<Category> paginationResult = new PaginationResult<Category>(
+//				PaginationResponse.builder()
+//					.page(0)
+//					.size(10)
+//					.numberOfElements(1)
+//					.totalElements(1)
+//					.build(),
+//				Arrays.asList(Category.builder().code("first-category").name("First Category").build()));
+		
+		//when
+//		Mockito.when(paginationMapper.map(Mockito.anyInt(), Mockito.anyInt())).thenReturn(paginationRequest);
+//		Mockito.when(findCategoryService.executeFindAll(Mockito.any(PageRequest.class), Mockito.anyString())).thenReturn(paginationResult);
+//		Mockito.when(paginationMapper.map(Mockito.any(PaginationResponse.class))).thenReturn(paginationResponseResourceResult);
+//		Mockito.when(categoryMapper.mapDomainToResource(Mockito.any(Category.class))).thenReturn(categoryResult);
+		
+//		CategoryPaginationResponseResource result = categoryController.executeFindAll(null, null, null);
+		
+		//then
+//		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResult);
 	}
 }
