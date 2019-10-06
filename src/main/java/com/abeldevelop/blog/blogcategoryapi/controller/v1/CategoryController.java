@@ -23,6 +23,7 @@ import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.UpdateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.CreateCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.DeleteCategoryService;
+import com.abeldevelop.blog.blogcategoryapi.service.v1.FindCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.UpdateCategoryService;
 
 import io.swagger.annotations.Api;
@@ -55,6 +56,7 @@ public class CategoryController {
 	private final CreateCategoryService createCategoryService;
 	private final UpdateCategoryService updateCategoryService;
 	private final DeleteCategoryService deleteCategoryService;
+	private final FindCategoryService findCategoryService;
 	
 	
 	@ApiOperation(value = "Create new category")
@@ -127,12 +129,11 @@ public class CategoryController {
 
 		log.info(LOG_DATA_IN + "code: {}", EXECUTE_FIND_BY_CODE_METHOD_NAME, code);
 		
-		//TODO Call the service to find a category by code
-		CategoryResponseResource categoryResponseResource = null;
+		CategoryResponseResource categoryResponseResource = categoryMapper.mapDomainToResource(findCategoryService.executeFindByCode(code));
 		
 		log.info(LOG_DATA_OUT + "categoryResponseResource: {}", EXECUTE_FIND_BY_CODE_METHOD_NAME, categoryResponseResource);
 		
-		throw new UnsupportedOperationException("Not implemented, yet");
+		return categoryResponseResource;
 	}
 	
 	@ApiOperation(value = "Find all categories")
