@@ -22,6 +22,7 @@ public class ErrorMessageProperties implements ErrorMessages {
 	public static final String PAGINATION_MIN_SIZE_ERROR = "paginationMinSizeError";
 	
 	public static final String CATEGORY_CODE_EXIST = "categoryCodeExist";
+	public static final String CATEGORY_NOT_FOUND = "categoryNotFound";
 	
 	private Map<String, String> errorMessages;
 	
@@ -48,15 +49,16 @@ public class ErrorMessageProperties implements ErrorMessages {
 	private void addMessagesToMap() {
 		errorMessages.put(CATEGORY_PAGINATION_RESPONSE_RESOURCE_PAGINATION_RESPONSE_RESOURCE_NOT_NULL, "The pagination cannot be null");
 		
-		errorMessages.put(CATEGORY_CODE_NOT_NULL, "The category code cannot be null");
-		errorMessages.put(CATEGORY_CODE_SIZE, "The category name must be between 3 and 25 characters");
-		errorMessages.put(CATEGORY_NAME_NOT_NULL, "The category name cannot be null");
+		errorMessages.put(CATEGORY_CODE_NOT_NULL, "The category code is mandatory");
+		errorMessages.put(CATEGORY_CODE_SIZE, "The category code must be between 3 and 25 characters");
+		errorMessages.put(CATEGORY_NAME_NOT_NULL, "The category name is mandatory");
 		errorMessages.put(CATEGORY_NAME_SIZE, "The category name must be between 3 and 25 characters");
 
 		errorMessages.put(PAGINATION_MIN_PAGE_ERROR, "The page number can not be less than {}");
 		errorMessages.put(PAGINATION_MIN_SIZE_ERROR, "The page size can not be less than {}");
 		
-		errorMessages.put(CATEGORY_CODE_EXIST, "There is already a category with the name: {}");
+		errorMessages.put(CATEGORY_CODE_EXIST, "The Category with name {} already exists");
+		errorMessages.put(CATEGORY_NOT_FOUND, "No exist category with code: {}");
 		
 	}
 }

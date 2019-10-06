@@ -24,8 +24,8 @@ import lombok.ToString;
 public class UpdateCategoryRequestResource {
 
 	@ApiModelProperty(notes="Name of the category", example="First Category", required = true, position = 0)
-	@NotNull(message = ErrorMessageProperties.CATEGORY_CODE_NOT_NULL)
-	@Size(min = 3, max = 25, message = ErrorMessageProperties.CATEGORY_CODE_SIZE)
+	@NotNull(message = ErrorMessageProperties.CATEGORY_NAME_NOT_NULL)
+	@Size(min = 3, max = 25, message = ErrorMessageProperties.CATEGORY_NAME_SIZE)
 	private String name;
 	
 }

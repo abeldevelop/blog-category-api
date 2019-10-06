@@ -22,6 +22,7 @@ import com.abeldevelop.blog.blogcategoryapi.resource.CreateCategoryRequestResour
 import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.UpdateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.CreateCategoryService;
+import com.abeldevelop.blog.blogcategoryapi.service.v1.UpdateCategoryService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -51,6 +52,7 @@ public class CategoryController {
 	
 	private final CategoryMapper categoryMapper;
 	private final CreateCategoryService createCategoryService;
+	private final UpdateCategoryService updateCategoryService;
 	
 	@ApiOperation(value = "Create new category")
 	@ApiResponses({ 
@@ -86,12 +88,11 @@ public class CategoryController {
 		
 		log.info(LOG_DATA_IN + "code: {}, updateCategoryRequestResource: {}", EXECUTE_UPDATE_METHOD_NAME, code, updateCategoryRequestResource);
 		
-		//TODO Call the service to update a category
-		CategoryResponseResource categoryResponseResource = null;
+		CategoryResponseResource categoryResponseResource = categoryMapper.mapDomainToResource(updateCategoryService.executeUpdate(code, categoryMapper.mapResourceToDomain(updateCategoryRequestResource)));
 		
 		log.info(LOG_DATA_OUT + "categoryResponseResource: {}", EXECUTE_UPDATE_METHOD_NAME, categoryResponseResource);
 		
-		throw new UnsupportedOperationException("Not implemented, yet");
+		return categoryResponseResource;
 	}
 	
 	@ApiOperation(value = "Delete a category")
