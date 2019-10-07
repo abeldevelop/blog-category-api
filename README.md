@@ -7,3 +7,11 @@ http://localhost:8201/swagger-ui.html#/
 ```
 
 ## CHANGELOG
+
+###1.0.0
+	Create endpoint to:
+		- create category
+		- update category
+		- delete category
+		- find category by code
+		- find all categories
