@@ -1,5 +1,7 @@
 package com.abeldevelop.blog.blogcategoryapi.controller.v1;
 
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.abeldevelop.blog.blogcategoryapi.config.SpringFoxConfiguration;
+import com.abeldevelop.blog.blogcategoryapi.domain.Category;
+import com.abeldevelop.blog.blogcategoryapi.domain.PageRequest;
+import com.abeldevelop.blog.blogcategoryapi.domain.PaginationResult;
 import com.abeldevelop.blog.blogcategoryapi.mapper.CategoryMapper;
+import com.abeldevelop.blog.blogcategoryapi.mapper.PaginationMapper;
 import com.abeldevelop.blog.blogcategoryapi.resource.CategoryPaginationResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CategoryResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CreateCategoryRequestResource;
@@ -52,12 +58,13 @@ public class CategoryController {
 	private static final String EXECUTE_FIND_BY_CODE_METHOD_NAME = "executeFindByCode";
 	private static final String EXECUTE_FIND_ALL_METHOD_NAME = "executeFindAll";
 	
-	private final CategoryMapper categoryMapper;
 	private final CreateCategoryService createCategoryService;
 	private final UpdateCategoryService updateCategoryService;
 	private final DeleteCategoryService deleteCategoryService;
 	private final FindCategoryService findCategoryService;
 	
+	private final CategoryMapper categoryMapper;
+	private final PaginationMapper paginationMapper;
 	
 	@ApiOperation(value = "Create new category")
 	@ApiResponses({ 
@@ -156,11 +163,17 @@ public class CategoryController {
 			@RequestParam(name = "query", required = false) String query) {
 		log.info(LOG_DATA_IN + "page: {}, size: {}, query: {}", EXECUTE_FIND_ALL_METHOD_NAME, page, size, query);
 		
-		//TODO Call the service to find all categories
-		CategoryPaginationResponseResource categoryPaginationResponseResource = null;
+		PageRequest pageRequest = PageRequest.builder().pagination(paginationMapper.map(page, size)).build();
+		
+		PaginationResult<Category> paginationResult = findCategoryService.executeFindAll(pageRequest, query);
+		
+		CategoryPaginationResponseResource categoryPaginationResponseResource = CategoryPaginationResponseResource.builder()
+				.pagination(paginationMapper.map(paginationResult.getPagination()))
+				.categories(paginationResult.getResults().stream().map(categoryMapper::mapDomainToResource).collect(Collectors.toList()))
+				.build();
 		
 		log.info(LOG_DATA_OUT + "categoryResponseResource: {}", EXECUTE_FIND_ALL_METHOD_NAME, categoryPaginationResponseResource);
-		
-		throw new UnsupportedOperationException("Not implemented, yet");
+
+		return categoryPaginationResponseResource;
 	}
 }
