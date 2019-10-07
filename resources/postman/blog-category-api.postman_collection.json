@@ -1,0 +1,1394 @@
+{
+	"info": {
+		"_postman_id": "d70f40c7-6226-475d-b135-993e4fefd465",
+		"name": "blog-category-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "createCategory",
+			"item": [
+				{
+					"name": "CreateNewCategory-OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4132b7d3-6b5a-4253-8046-486ff8bf9135",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"let expectedResponseCodeStatus = 201;",
+									"let categoryCode = \"first-category\";",
+									"let categoryName = \"First Category\";",
+									"",
+									"pm.test(\"The response code is \" + expectedResponseCodeStatus, function() {",
+									"    pm.expect(responseCodeStatus).to.eql(expectedResponseCodeStatus);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The name is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.name)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The name is \" + categoryName, function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.name).to.eql(categoryName);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The code is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.code)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The code is \" + categoryCode, function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.code).to.eql(categoryCode);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === expectedResponseCodeStatus) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"First Category\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:8201/v1/categories",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateNewCategory-KO-AlreadyExists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4132b7d3-6b5a-4253-8046-486ff8bf9135",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"let expectedResponseCodeStatus = 400;",
+									"let categoryName = \"First Category\";",
+									"",
+									"pm.test(\"The response code is 400\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(expectedResponseCodeStatus);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The message is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.message)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The message is the expected\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.message).to.eql(\"The Category with name \" + categoryName + \" already exists\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === expectedResponseCodeStatus) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"First Category\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:8201/v1/categories",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateNewCategory-KO-CategoryNameIsMandatory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4132b7d3-6b5a-4253-8046-486ff8bf9135",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 400\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The message is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.message)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The message is the expected\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.message).to.eql(\"The category name is mandatory\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 400) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": null\n}"
+						},
+						"url": {
+							"raw": "{{url}}:8201/v1/categories",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateNewCategory-KO-CategoryNameMinLength",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4132b7d3-6b5a-4253-8046-486ff8bf9135",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 400\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The message is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.message)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The message is the expected\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.message).to.eql(\"The category name must be between 3 and 25 characters\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 400) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"a\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:8201/v1/categories",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateNewCategory-KO-CategoryNameMaxLength",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4132b7d3-6b5a-4253-8046-486ff8bf9135",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 400\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The message is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.message)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The message is the expected\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.message).to.eql(\"The category name must be between 3 and 25 characters\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 400) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"aaaaa aaaaa aaaaa aaaaa aaaaa \"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:8201/v1/categories",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cde7022e-703b-4fc6-bbdd-11b553c8f990",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "91b630e3-2662-44dd-846c-9e8fd8027d71",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "updateCategory",
+			"item": [
+				{
+					"name": "UpdateCategory-OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4132b7d3-6b5a-4253-8046-486ff8bf9135",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 200\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The name is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.name)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The name is Updated Category\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.name).to.eql(\"Updated Category\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The code is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.code)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The code is updated-category\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.code).to.eql(\"updated-category\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 200) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Updated Category\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:8201/v1/categories/first-category",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories",
+								"first-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCategory-KO-CategoryCodeNotExist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4132b7d3-6b5a-4253-8046-486ff8bf9135",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 404\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(404);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The message is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.message)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The message is the expected\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.message).to.eql(\"No exist category with code: first-category\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 404) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Updated Category\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:8201/v1/categories/first-category",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories",
+								"first-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCategory-KO-CategoryNameIsMandatory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4132b7d3-6b5a-4253-8046-486ff8bf9135",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 400\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The message is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.message)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The message is the expected\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.message).to.eql(\"The category name is mandatory\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 400) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": null\n}"
+						},
+						"url": {
+							"raw": "{{url}}:8201/v1/categories/first-category",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories",
+								"first-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCategory-KO-CategoryNameMinLength",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4132b7d3-6b5a-4253-8046-486ff8bf9135",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 400\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The message is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.message)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The message is the expected\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.message).to.eql(\"The category name must be between 3 and 25 characters\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 400) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"a\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:8201/v1/categories/first-category",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories",
+								"first-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCategory-KO-CategoryNameMaxLength",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4132b7d3-6b5a-4253-8046-486ff8bf9135",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 400\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(400);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The message is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.message)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The message is the expected\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.message).to.eql(\"The category name must be between 3 and 25 characters\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 400) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"aaaaa aaaaa aaaaa aaaaa aaaaa \"\n}"
+						},
+						"url": {
+							"raw": "{{url}}:8201/v1/categories/first-category",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories",
+								"first-category"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9e42005c-9ad7-4f64-bbe7-0c1c266ecd4b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "3c771658-3a36-41f3-a786-282356def944",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "findCategoryByCode",
+			"item": [
+				{
+					"name": "FindCategoryByCode-OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1b10a4e-d360-4be3-bdf3-172d028cf34b",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 200\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The name is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.name)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The name is Updated Category\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.name).to.eql(\"Updated Category\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The code is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.code)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The code is updated-category\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.code).to.eql(\"updated-category\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 200) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:8201/v1/categories/updated-category",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories",
+								"updated-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindCategoryByCode-KO-CategoryNotExist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1b10a4e-d360-4be3-bdf3-172d028cf34b",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 404\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(404);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The message is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.message)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The message is the expected\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.message).to.eql(\"No exist category with code: first-category\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 404) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:8201/v1/categories/first-category",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories",
+								"first-category"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2490379e-f306-4c85-afd4-b0d833fcc0c4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5f2efdae-b899-4447-9c57-a87a86d4bc10",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "findAllCategories",
+			"item": [
+				{
+					"name": "FindAllCategories-OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1b10a4e-d360-4be3-bdf3-172d028cf34b",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 200\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The pagination is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.pagination)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The pagination page is 1\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.pagination.page).to.eql(1);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The categories is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.categories, true)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The is at least one category\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.categories.length).not.eql(0);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 200) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:8201/v1/categories?",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "i",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "NAME_DESC",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "454dbd1a-7f05-42b2-a8ae-1e6ad778b373",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e8a683fc-1617-4a89-a694-f6410c102562",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "deleteCategory",
+			"item": [
+				{
+					"name": "DeleteCategoryByCode-OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1b10a4e-d360-4be3-bdf3-172d028cf34b",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"",
+									"",
+									"pm.test(\"The response code is 204\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(204);",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 204) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:8201/v1/categories/updated-category",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories",
+								"updated-category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCategoryByCode-KO-CategoryNotExist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c1b10a4e-d360-4be3-bdf3-172d028cf34b",
+								"exec": [
+									"let responseCodeStatus = pm.response.code;",
+									"let responseBodyJson = pm.response.json();",
+									"",
+									"",
+									"pm.test(\"The response code is 404\", function() {",
+									"    pm.expect(responseCodeStatus).to.eql(404);",
+									"});",
+									"",
+									"",
+									"pm.test(\"The message is informed\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(isMandatoryFieldInformed(responseBodyJson.message)).to.eql(true);",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"The message is the expected\", function() {",
+									"    if(isCorrectResponse()) {",
+									"        pm.expect(responseBodyJson.message).to.eql(\"No exist category with code: updated-category\");",
+									"    } else {",
+									"        pm.expect(false).to.eql(true);",
+									"    }",
+									"});",
+									"",
+									"function isMandatoryFieldInformed(data, isList) {",
+									"    if(data === undefined || data === null) {",
+									"        return false;",
+									"    } else if(!isList && data === \"\") {",
+									"        return false;",
+									"    } else {",
+									"        return true;",
+									"    }",
+									"}",
+									"",
+									"function isCorrectResponse() {",
+									"    if(responseCodeStatus === 404) {",
+									"        return true;",
+									"    } else {",
+									"        return false;",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}:8201/v1/categories/updated-category",
+							"host": [
+								"{{url}}"
+							],
+							"port": "8201",
+							"path": [
+								"v1",
+								"categories",
+								"updated-category"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
