@@ -5,6 +5,9 @@ import static java.lang.ThreadLocal.withInitial;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
+
+
 public enum TestContext {
 
 	CONTEXT;
@@ -36,11 +39,11 @@ public enum TestContext {
 		return get(REQUEST_ENDPOINT);
 	}
 	
-	public void setRequestHeaders(Object requestHeaders) {
+	public void setRequestHeaders(HttpHeaders requestHeaders) {
 		set(REQUEST_HEADERS, requestHeaders);
 	}
 	
-	public String getRequestHeaders() {
+	public HttpHeaders getRequestHeaders() {
 		return get(REQUEST_HEADERS);
 	}
 	
@@ -64,20 +67,20 @@ public enum TestContext {
 		set(RESPONSE_STATUS, responseStatus);
 	}
 	
-	public String getResponseStatus() {
+	public int getResponseStatus() {
 		return get(RESPONSE_STATUS);
 	}
 	
-	public void setResponseHeaders(Object responseHeaders) {
+	public void setResponseHeaders(HttpHeaders responseHeaders) {
 		set(RESPONSE_HEADERS, responseHeaders);
 	}
 	
-	public String getResponseHeaders() {
+	public HttpHeaders getResponseHeaders() {
 		return get(RESPONSE_HEADERS);
 	}
 	
-	public void setResponseBody(Object responseBody) {
-		set(RESPONSE_HEADERS, responseBody);
+	public void setResponseBody(String responseBody) {
+		set(RESPONSE_BODY, responseBody);
 	}
 	
 	public String getResponseBody() {
