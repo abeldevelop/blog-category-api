@@ -12,6 +12,7 @@ public enum TestContext {
 
 	CONTEXT;
 
+	private static final String TEST_CASE = "TEST_CASE";
 	private static final String REQUEST_ENDPOINT = "REQUEST_ENDPOINT";
 	private static final String REQUEST_HEADERS = "REQUEST_HEADERS";
 	private static final String REQUEST_PARAMS = "REQUEST_PARAMS";
@@ -29,6 +30,14 @@ public enum TestContext {
 	private <T> T set(String name, T object) {
 		testContexts.get().put(name, object);
 		return object;
+	}
+	
+	public void setTestCase(String testCase) {
+		set(TEST_CASE, testCase);
+	}
+	
+	public String getTestCase() {
+		return get(TEST_CASE);
 	}
 	
 	public void setRequestEndpoint(String requestEndpoint) {

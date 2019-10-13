@@ -11,20 +11,24 @@ import org.springframework.web.client.RestTemplate;
 
 import com.abeldevelop.blog.blogcategoryapi.cucumber.config.TestContext;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Class to manage the call to the webservice
  *
  */
+@Slf4j
 public class MakeRestCall {
 
 	private HttpEntity<?> requestHttpEntity;
 	private TestContext testContext;
 	
-	MakeRestCall(TestContext testContext) {
+	public MakeRestCall(TestContext testContext) {
 		this.testContext = testContext;
 	}
 	
 	public void call(String method) throws Exception {
+		log.info("Make {} call", method);
 		switch(method) {
 			case "POST":
 				makeRestCall(HttpMethod.POST);
@@ -55,7 +59,11 @@ public class MakeRestCall {
 	private void makeRestCall(HttpMethod method) throws Exception {
 		createRequestHttpEntity();
 		try {
+			log.info("RestTemplate REQUEST url: {}", testContext.getRequestEndpoint());
+			log.info("RestTemplate REQUEST method: {}", method);
+			log.info("RestTemplate REQUEST requestEntity: {}", requestHttpEntity);
 			ResponseEntity<String> response = new RestTemplate().exchange(testContext.getRequestEndpoint(), method, requestHttpEntity, String.class);
+			log.info("RestTemplate RESPONSE: {}", response);
 			addResponseInformationToContext(response);
 		} catch (Exception e) {
 			if(e instanceof HttpClientErrorException) {

@@ -2,11 +2,11 @@ package com.abeldevelop.blog.blogcategoryapi.cucumber.common;
 
 import static com.abeldevelop.blog.blogcategoryapi.cucumber.config.TestContext.CONTEXT;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.web.servlet.MockMvc;
 
 import com.abeldevelop.blog.blogcategoryapi.cucumber.config.TestContext;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class BaseSteps {
 
@@ -21,8 +21,10 @@ public class BaseSteps {
 		return CONTEXT;
 	}
 	
-	protected void makeCall(String method) throws Exception {
-		new MakeRestCall(testContext()).call(method);;
+	@SuppressWarnings("unchecked")
+	protected <T extends Object> T getResponseClass(Class<?> clazz) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+		return (T) mapper.readValue(testContext().getResponseBody(), clazz);
 	}
-	
 }
