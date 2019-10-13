@@ -14,7 +14,7 @@
 	
 	<groupId>com.abeldevelop.blog</groupId>
 	<artifactId>blog-category-api</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	
 	<name>blog-category-api</name>
 	<description>Api to manage the categories for the blog application</description>
@@ -27,6 +27,10 @@
 
 		<!-- SWAGGER DEPENDENCIES -->
 		<springfox.swagger.version>2.9.2</springfox.swagger.version>
+		
+		<!-- CUCUMBER PROPERTIES -->
+		<cucumber.version>4.7.4</cucumber.version>
+		<cucumber.reporting.version>3.0.4</cucumber.reporting.version>
 	</properties>
 
 	<dependencies>
@@ -102,7 +106,39 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- CUCUMBER -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.version}</version>
+		</dependency>
 
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>de.monochromata.cucumber</groupId>
+			<artifactId>reporting-plugin</artifactId>
+			<version>${cucumber.reporting.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jdk8</artifactId>
+		</dependency>		
 	</dependencies>
 
 	<dependencyManagement>
@@ -123,6 +159,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
 		</plugins>
 	</build>
 
