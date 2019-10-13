@@ -30,6 +30,7 @@
 		
 		<!-- CUCUMBER PROPERTIES -->
 		<cucumber.version>4.7.4</cucumber.version>
+		<cucumber.reporting.version>3.0.4</cucumber.reporting.version>
 	</properties>
 
 	<dependencies>
@@ -124,6 +125,13 @@
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-spring</artifactId>
 			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>de.monochromata.cucumber</groupId>
+			<artifactId>reporting-plugin</artifactId>
+			<version>${cucumber.reporting.version}</version>
 			<scope>test</scope>
 		</dependency>
 		
