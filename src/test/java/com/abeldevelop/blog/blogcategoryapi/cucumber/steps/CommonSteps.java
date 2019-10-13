@@ -2,8 +2,6 @@ package com.abeldevelop.blog.blogcategoryapi.cucumber.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
 import com.abeldevelop.blog.blogcategoryapi.cucumber.common.BaseSteps;
 import com.abeldevelop.blog.blogcategoryapi.cucumber.common.MakeRestCall;
 import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource;
@@ -116,8 +114,17 @@ public class CommonSteps extends BaseSteps {
 		switch (method) {
 			case "POST":
 				requestMethod = Request.Method.POST;
-			break;
-
+				break;
+			case "DELETE":
+				requestMethod = Request.Method.DELETE;
+				break;
+			case "GET":
+				requestMethod = Request.Method.GET;
+				break;
+			case "PUT":
+				requestMethod = Request.Method.PUT;
+				break;
+			
 			default:
 				requestMethod = null;
 				break;

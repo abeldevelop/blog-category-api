@@ -81,7 +81,7 @@ public class CategoryController {
 		CategoryResponseResource categoryResponseResource = categoryMapper.mapDomainToResource(createCategoryService.executeCreate(categoryMapper.mapResourceToDomain(createCategoryRequestResource)));
 		
 		log.info(LOG_DATA_OUT + "categoryResponseResource: {}", EXECUTE_CREATE_METHOD_NAME, categoryResponseResource);
-		categoryResponseResource.setName("");
+
 		return categoryResponseResource;
 	}
 	
@@ -150,7 +150,7 @@ public class CategoryController {
 		@ApiImplicitParam(name = "query", value = "Name or part of category name to search", required = false, example="fir", dataType = "string", paramType = "query")
 	})
 	@ApiResponses({ 
-		@ApiResponse(code = 200, response = CategoryResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_200_MESSAGE),
+		@ApiResponse(code = 200, response = CategoryPaginationResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_200_MESSAGE),
 		@ApiResponse(code = 400, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_400_MESSAGE),
 		@ApiResponse(code = 404, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_404_MESSAGE),
 		@ApiResponse(code = 500, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_500_MESSAGE)
