@@ -2,9 +2,17 @@ package com.abeldevelop.blog.blogcategoryapi.cucumber.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import com.abeldevelop.blog.blogcategoryapi.cucumber.common.BaseSteps;
 import com.abeldevelop.blog.blogcategoryapi.cucumber.common.MakeRestCall;
 import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource;
+import com.atlassian.oai.validator.OpenApiInteractionValidator;
+import com.atlassian.oai.validator.model.Request;
+import com.atlassian.oai.validator.model.Response;
+import com.atlassian.oai.validator.model.SimpleResponse;
+import com.atlassian.oai.validator.report.ValidationReport;
+import com.atlassian.oai.validator.report.ValidationReport.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -79,5 +87,41 @@ public class CommonSteps extends BaseSteps {
 			}
 		}
 		log.info("END STEP => If response code not {} i verify the error response message {}", expectedResponseCode, errorResponseMessage);
+	}
+	
+	@And("If response code is {int} i verify the contract for path {} and method {}")
+	public void if_response_code_is_correct_i_verify_the_contract(Integer expectedStatusCode, String path, String method) {
+		path = path.replaceAll("\"", "");
+		method = method.replaceAll("\"", "");
+		if(testContext().getResponseStatus() == expectedStatusCode) {
+			OpenApiInteractionValidator validator = OpenApiInteractionValidator
+			        .createForSpecificationUrl(baseUrl() + "/v2/api-docs")
+			        .build();
+			Response response = SimpleResponse.Builder.status(expectedStatusCode)
+	                .withContentType("application/json")
+	                .withBody(testContext().getResponseBody())
+	                .build();
+			final ValidationReport report = validator.validateResponse(path, getRequestMethod(method), response);
+			if(report.hasErrors()) {
+				for(Message message : report.getMessages()) {
+					log.error("Contract errors => {}", message.getMessage());
+				}
+				assertThat(false).as("The response contract is not correct").isEqualTo(true);
+			}
+		}
+	}
+	
+	private Request.Method getRequestMethod(String method) {
+		Request.Method requestMethod = null; 
+		switch (method) {
+			case "POST":
+				requestMethod = Request.Method.POST;
+			break;
+
+			default:
+				requestMethod = null;
+				break;
+		}
+		return requestMethod;
 	}
 }

@@ -9,6 +9,8 @@ Feature: Create new category
     	| <name> 	|
     When Make "POST" call
     Then I verify the <responseStatusCode> response code
+    And If response code is 201 i verify the contract
+    And If response code is 201 i verify the contract for path "/v1/categories" and method "POST"
     And If response code not 201 i verify the error response message <errorResponseMessage>
     And If response code is 201 i verify the category code  <responseCategoryCode>
 

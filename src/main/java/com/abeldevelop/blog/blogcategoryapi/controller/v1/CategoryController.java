@@ -81,7 +81,7 @@ public class CategoryController {
 		CategoryResponseResource categoryResponseResource = categoryMapper.mapDomainToResource(createCategoryService.executeCreate(categoryMapper.mapResourceToDomain(createCategoryRequestResource)));
 		
 		log.info(LOG_DATA_OUT + "categoryResponseResource: {}", EXECUTE_CREATE_METHOD_NAME, categoryResponseResource);
-		
+		categoryResponseResource.setName("");
 		return categoryResponseResource;
 	}
 	
