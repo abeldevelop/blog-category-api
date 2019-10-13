@@ -5,6 +5,7 @@ Feature: Find category by code
     Given The endpoint "/v1/categories/<categoryCode>"
     When Make "GET" call
     Then I verify the <responseStatusCode> response code
+    And If response code is 200 i verify the contract for path "/v1/categories/{code}" and method "GET"
     And If response code not 200 i verify the error response message <errorResponseMessage>
     And If response code is 200 i verify the category code  <responseCategoryCode>
 

@@ -5,6 +5,7 @@ Feature: Find all categories
     Given The endpoint "/v1/categories"
     When Make "GET" call
     Then I verify the <responseStatusCode> response code
+    And If response code is 200 i verify the contract for path "/v1/categories" and method "GET"
     And If response code is 200 i verify the categories result size <resultSize>
 
     Examples: 
