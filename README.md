@@ -26,6 +26,9 @@ http://localhost:8201/swagger-ui.html#/
 
 ## CHANGELOG
 
+### 1.0.1
+- Add cucumber test and reports
+
 ### 1.0.0
 Create endpoint to:
 - create category
