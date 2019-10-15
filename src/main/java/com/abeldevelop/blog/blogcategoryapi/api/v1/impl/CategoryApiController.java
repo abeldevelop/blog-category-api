@@ -1,4 +1,4 @@
-package com.abeldevelop.blog.blogcategoryapi.controller.v1;
+package com.abeldevelop.blog.blogcategoryapi.api.v1.impl;
 
 import java.util.stream.Collectors;
 
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.abeldevelop.blog.blogcategoryapi.config.SpringFoxConfiguration;
+import com.abeldevelop.blog.blogcategoryapi.api.v1.CategoryApi;
 import com.abeldevelop.blog.blogcategoryapi.domain.Category;
 import com.abeldevelop.blog.blogcategoryapi.domain.PageRequest;
 import com.abeldevelop.blog.blogcategoryapi.domain.PaginationResult;
@@ -25,29 +25,21 @@ import com.abeldevelop.blog.blogcategoryapi.mapper.PaginationMapper;
 import com.abeldevelop.blog.blogcategoryapi.resource.CategoryPaginationResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CategoryResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CreateCategoryRequestResource;
-import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.UpdateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.CreateCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.DeleteCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.FindCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.UpdateCategoryService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Api(tags= {"Category"})
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/categories")
-public class CategoryController {
+public class CategoryApiController implements CategoryApi {
 
 	private static final String LOG_DATA_IN = "{} Data IN => ";
 	private static final String LOG_DATA_OUT = "{} Data IN => ";
@@ -66,15 +58,10 @@ public class CategoryController {
 	private final CategoryMapper categoryMapper;
 	private final PaginationMapper paginationMapper;
 	
-	@ApiOperation(value = "Create new category")
-	@ApiResponses({ 
-		@ApiResponse(code = 201, response = CategoryResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_201_MESSAGE), 
-		@ApiResponse(code = 400, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_400_MESSAGE),
-		@ApiResponse(code = 500, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_500_MESSAGE)
-	})
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CategoryResponseResource executeCreate(@ApiParam(name="category", value="Category to create", required = true) @Valid @RequestBody CreateCategoryRequestResource createCategoryRequestResource) {
+	public CategoryResponseResource executeCreate(@Valid @RequestBody CreateCategoryRequestResource createCategoryRequestResource) {
 		
 		log.info(LOG_DATA_IN + "createCategoryRequestResource: {}", EXECUTE_CREATE_METHOD_NAME, createCategoryRequestResource);
 		
@@ -85,18 +72,10 @@ public class CategoryController {
 		return categoryResponseResource;
 	}
 	
-	@ApiOperation(value = "Update a category")
-	@ApiResponses({ 
-		@ApiResponse(code = 200, response = CategoryResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_200_MESSAGE), 
-		@ApiResponse(code = 400, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_400_MESSAGE),
-		@ApiResponse(code = 404, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_404_MESSAGE),
-		@ApiResponse(code = 500, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_500_MESSAGE)
-	})
+	
 	@PutMapping("/{code}")
 	@ResponseStatus(HttpStatus.OK)
-	public CategoryResponseResource executeUpdate(
-			@ApiParam(name="code", value="Code of the category", required = true, example="first-category") @PathVariable("code") String code,
-			@ApiParam(name="category", value="Category to updated", required = true) @Valid @RequestBody UpdateCategoryRequestResource updateCategoryRequestResource) {
+	public CategoryResponseResource executeUpdate(@PathVariable("code") String code, @Valid @RequestBody UpdateCategoryRequestResource updateCategoryRequestResource) {
 		
 		log.info(LOG_DATA_IN + "code: {}, updateCategoryRequestResource: {}", EXECUTE_UPDATE_METHOD_NAME, code, updateCategoryRequestResource);
 		
@@ -107,15 +86,10 @@ public class CategoryController {
 		return categoryResponseResource;
 	}
 	
-	@ApiOperation(value = "Delete a category")
-	@ApiResponses({ 
-		@ApiResponse(code = 204, response = CategoryResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_204_MESSAGE), 
-		@ApiResponse(code = 404, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_404_MESSAGE),
-		@ApiResponse(code = 500, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_500_MESSAGE)
-	})
+	
 	@DeleteMapping("/{code}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void executeDelete(@ApiParam(name="code", value="Code of the category", required = true, example="first-category") @PathVariable("code") String code) {
+	public void executeDelete(@PathVariable("code") String code) {
 		
 		log.info(LOG_DATA_IN + "code: {}", EXECUTE_DELETE_METHOD_NAME, code);
 
@@ -124,15 +98,10 @@ public class CategoryController {
 		log.info(LOG_DATA_OUT, EXECUTE_DELETE_METHOD_NAME);
 	}
 
-	@ApiOperation(value = "Find category by code")
-	@ApiResponses({ 
-		@ApiResponse(code = 200, response = CategoryResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_200_MESSAGE), 
-		@ApiResponse(code = 404, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_404_MESSAGE),
-		@ApiResponse(code = 500, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_500_MESSAGE)
-	})
+
 	@GetMapping("/{code}")
 	@ResponseStatus(HttpStatus.OK)
-	public CategoryResponseResource executeFindByCode(@ApiParam(name="code", value="Code of the category", required = true, example="first-category") @PathVariable("code") String code) {
+	public CategoryResponseResource executeFindByCode(@PathVariable("code") String code) {
 
 		log.info(LOG_DATA_IN + "code: {}", EXECUTE_FIND_BY_CODE_METHOD_NAME, code);
 		
@@ -143,18 +112,7 @@ public class CategoryController {
 		return categoryResponseResource;
 	}
 	
-	@ApiOperation(value = "Find all categories")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "page", value = "Number of page", required = false, example="1", defaultValue="1", dataType = "int", paramType = "query"),
-		@ApiImplicitParam(name = "size", value = "Size of page", required = false, example="1", defaultValue="10", dataType = "int", paramType = "query"),
-		@ApiImplicitParam(name = "query", value = "Name or part of category name to search", required = false, example="fir", dataType = "string", paramType = "query")
-	})
-	@ApiResponses({ 
-		@ApiResponse(code = 200, response = CategoryPaginationResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_200_MESSAGE),
-		@ApiResponse(code = 400, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_400_MESSAGE),
-		@ApiResponse(code = 404, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_404_MESSAGE),
-		@ApiResponse(code = 500, response = ErrorResponseResource.class, message = SpringFoxConfiguration.API_RESPONSE_CODE_500_MESSAGE)
-	})
+	
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public CategoryPaginationResponseResource executeFindAll(

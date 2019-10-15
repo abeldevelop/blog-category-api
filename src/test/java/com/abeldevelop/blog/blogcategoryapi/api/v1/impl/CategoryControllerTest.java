@@ -1,4 +1,4 @@
-package com.abeldevelop.blog.blogcategoryapi.controller.v1;
+package com.abeldevelop.blog.blogcategoryapi.api.v1.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -49,11 +49,11 @@ public class CategoryControllerTest {
 	@Mock
 	private PaginationMapper paginationMapper;
 	
-	CategoryController categoryController;
+	CategoryApiController categoryController;
 	
 	@Before
 	public void setUp() {
-		categoryController = new CategoryController(createCategoryService, updateCategoryService, deleteCategoryService, findCategoryService, categoryMapper, paginationMapper);
+		categoryController = new CategoryApiController(createCategoryService, updateCategoryService, deleteCategoryService, findCategoryService, categoryMapper, paginationMapper);
 	}
 	
 	@Test
