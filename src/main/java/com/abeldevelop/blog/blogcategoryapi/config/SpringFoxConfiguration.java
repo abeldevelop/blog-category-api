@@ -50,7 +50,7 @@ public class SpringFoxConfiguration {
 	public Docket apiDocket() {
 		 return new Docket(DocumentationType.SWAGGER_2)
 			.select()
-			.apis(RequestHandlerSelectors.basePackage("com.abeldevelop.blog.blogcategoryapi.controller.v1"))
+			.apis(RequestHandlerSelectors.basePackage("com.abeldevelop.blog.blogcategoryapi.api.v1"))
 			.paths(PathSelectors.any())
 			.build()
 			.produces(new HashSet<>(Arrays.asList(MediaType.APPLICATION_JSON_VALUE)))
@@ -77,6 +77,6 @@ public class SpringFoxConfiguration {
 	}
 	
 	private Tag getTag() {
-		return new Tag("Category", "Operations about categories");
+		return new Tag("Categories", "Operations about categories");
 	}
 }
