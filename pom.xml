@@ -13,10 +13,10 @@
 	</parent>
 
 	<groupId>com.abeldevelop.blog</groupId>
-	<artifactId>blog-category-api</artifactId>
+	<artifactId>blog-category-service</artifactId>
 	<version>1.0.2-SNAPSHOT</version>
 
-	<name>blog-category-api</name>
+	<name>blog-category-service</name>
 	<description>Api to manage the categories for the blog application</description>
 
 	<properties>
