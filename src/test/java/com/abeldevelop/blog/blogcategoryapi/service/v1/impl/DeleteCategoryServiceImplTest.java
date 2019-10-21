@@ -1,19 +1,21 @@
 package com.abeldevelop.blog.blogcategoryapi.service.v1.impl;
 
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import java.util.Optional;
 
 import com.abeldevelop.blog.blogcategoryapi.entity.CategoryEntity;
 import com.abeldevelop.blog.blogcategoryapi.exception.category.CategoryNotFoundException;
 import com.abeldevelop.blog.blogcategoryapi.repository.CategoryRepository;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
 public class DeleteCategoryServiceImplTest {
 
 	@Mock
@@ -21,7 +23,7 @@ public class DeleteCategoryServiceImplTest {
 	
 	private DeleteCategoryServiceImpl deleteCategoryServiceImpl;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		deleteCategoryServiceImpl = new DeleteCategoryServiceImpl(categoryRepository);
 	}
@@ -41,14 +43,14 @@ public class DeleteCategoryServiceImplTest {
 		Mockito.verify(categoryRepository, Mockito.times(1)).executeDeleteById(Mockito.anyString());
 	}
 	
-	@Test(expected = CategoryNotFoundException.class)
+	@Test
 	public void executeDeleteByCodeNotFoundTestKo() {
 		//given
 		
 		//when
 		Mockito.when(categoryRepository.executeFindById(Mockito.any(String.class))).thenReturn(Optional.empty());
 		
-		deleteCategoryServiceImpl.executeDeleteByCode("first-category");
+		assertThrows(CategoryNotFoundException.class, () -> deleteCategoryServiceImpl.executeDeleteByCode("first-category"));
 		
 		//then
 	}

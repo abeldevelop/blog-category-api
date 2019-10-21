@@ -5,14 +5,14 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.Optional;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class ErrorMessagePropertiesTest {
 
 	private static ErrorMessageProperties errorMessage;
 	
-	@BeforeClass
+	@BeforeAll
 	public static void setUp() {
 		errorMessage = new ErrorMessageProperties();
 	}

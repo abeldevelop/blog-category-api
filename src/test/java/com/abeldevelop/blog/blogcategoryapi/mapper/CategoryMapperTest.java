@@ -1,9 +1,6 @@
 package com.abeldevelop.blog.blogcategoryapi.mapper;
 
-import static org.assertj.core.api.Assertions.*;
-
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.abeldevelop.blog.blogcategoryapi.domain.Category;
 import com.abeldevelop.blog.blogcategoryapi.entity.CategoryEntity;
@@ -11,11 +8,14 @@ import com.abeldevelop.blog.blogcategoryapi.resource.CategoryResponseResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.CreateCategoryRequestResource;
 import com.abeldevelop.blog.blogcategoryapi.resource.UpdateCategoryRequestResource;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 public class CategoryMapperTest {
 
 	public CategoryMapper categoryMapper;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		categoryMapper = new CategoryMapper();
 	}
@@ -27,7 +27,7 @@ public class CategoryMapperTest {
 		
 		Category result = categoryMapper.mapResourceToDomain(CreateCategoryRequestResource.builder().name("First Category").build());
 
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
 	@Test
@@ -36,7 +36,7 @@ public class CategoryMapperTest {
 		
 		Category result = categoryMapper.mapResourceToDomain(UpdateCategoryRequestResource.builder().name("First Category").build());
 
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
 	@Test
@@ -45,7 +45,7 @@ public class CategoryMapperTest {
 		
 		CategoryEntity result = categoryMapper.mapDomainToEntity(Category.builder().code("first-category").name("First Category").build());
 
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
 	@Test
@@ -54,7 +54,7 @@ public class CategoryMapperTest {
 		
 		CategoryResponseResource result = categoryMapper.mapDomainToResource(Category.builder().code("first-category").name("First Category").build());
 
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
 	@Test
@@ -63,6 +63,6 @@ public class CategoryMapperTest {
 		
 		Category result = categoryMapper.mapEntityToDomain(CategoryEntity.builder().code("first-category").name("First Category").build());
 		
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 }

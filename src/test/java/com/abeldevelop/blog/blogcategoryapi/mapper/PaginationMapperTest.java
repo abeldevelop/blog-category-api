@@ -1,9 +1,7 @@
 package com.abeldevelop.blog.blogcategoryapi.mapper;
 
-import static org.assertj.core.api.Assertions.*;
-
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.abeldevelop.blog.blogcategoryapi.domain.PaginationRequest;
 import com.abeldevelop.blog.blogcategoryapi.domain.PaginationResponse;
@@ -11,11 +9,15 @@ import com.abeldevelop.blog.blogcategoryapi.exception.client.custom.PaginationPa
 import com.abeldevelop.blog.blogcategoryapi.exception.client.custom.PaginationSizeException;
 import com.abeldevelop.blog.blogcategoryapi.resource.PaginationResponseResource;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+
 public class PaginationMapperTest {
 
 	private PaginationMapper paginationMapper;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		paginationMapper = new PaginationMapper();
 	}
@@ -26,20 +28,18 @@ public class PaginationMapperTest {
 		
 		PaginationRequest result = paginationMapper.map(null, null);
 		
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
-	@Test(expected = PaginationPageException.class)
+	@Test
 	public void mapToPaginationRequestWrongPageTest() {
-		
-		paginationMapper.map(0, null);
+		assertThrows(PaginationPageException.class, () -> paginationMapper.map(0, null));
 		
 	}
 	
-	@Test(expected = PaginationSizeException.class)
+	@Test
 	public void mapToPaginationRequestWrongSizeTest() {
-		
-		paginationMapper.map(null, 0);
+		assertThrows(PaginationSizeException.class, () -> paginationMapper.map(null, 0));
 		
 	}
 	
@@ -49,7 +49,7 @@ public class PaginationMapperTest {
 		
 		PaginationRequest result = paginationMapper.map(1, 1);
 		
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
 	@Test
@@ -68,7 +68,7 @@ public class PaginationMapperTest {
 		
 		PaginationResponseResource result = paginationMapper.map(paginationResponse);
 		
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
 	@Test
@@ -87,6 +87,6 @@ public class PaginationMapperTest {
 		
 		PaginationResponseResource result = paginationMapper.map(paginationResponse);
 		
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 }

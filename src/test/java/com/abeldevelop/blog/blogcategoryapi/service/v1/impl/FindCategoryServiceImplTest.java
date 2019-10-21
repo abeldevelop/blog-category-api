@@ -1,16 +1,10 @@
 package com.abeldevelop.blog.blogcategoryapi.service.v1.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.Optional;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import com.abeldevelop.blog.blogcategoryapi.domain.Category;
 import com.abeldevelop.blog.blogcategoryapi.domain.PageRequest;
@@ -21,7 +15,14 @@ import com.abeldevelop.blog.blogcategoryapi.exception.category.CategoryNotFoundE
 import com.abeldevelop.blog.blogcategoryapi.mapper.CategoryMapper;
 import com.abeldevelop.blog.blogcategoryapi.repository.CategoryRepository;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
 public class FindCategoryServiceImplTest {
 
 	@Mock
@@ -32,7 +33,7 @@ public class FindCategoryServiceImplTest {
 	
 	private FindCategoryServiceImpl findCategoryServiceImpl;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		findCategoryServiceImpl = new FindCategoryServiceImpl(categoryRepository, categoryMapper);
 	}
@@ -51,17 +52,17 @@ public class FindCategoryServiceImplTest {
 		Category result = findCategoryServiceImpl.executeFindByCode("first-category");
 		
 		//then
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
-	@Test(expected = CategoryNotFoundException.class)
+	@Test
 	public void executeFindByCodeNotFoundTestKo() {
 		//given
 		
 		//when
 		Mockito.when(categoryRepository.executeFindById(Mockito.any(String.class))).thenReturn(Optional.empty());
 		
-		findCategoryServiceImpl.executeFindByCode("first-category");
+		assertThrows(CategoryNotFoundException.class, () -> findCategoryServiceImpl.executeFindByCode("first-category"));
 		
 		//then
 	}
@@ -92,7 +93,8 @@ public class FindCategoryServiceImplTest {
 		
 		PaginationResult<Category> result = findCategoryServiceImpl.executeFindAll(new PageRequest(null, null), "");
 		
-		//then
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+        //then
+        assertThat(result.getPagination()).isEqualToComparingFieldByField(expectedResutl.getPagination());
+		assertThat(result.getResults().get(0)).isEqualToComparingFieldByField(expectedResutl.getResults().get(0));
 	}
 }

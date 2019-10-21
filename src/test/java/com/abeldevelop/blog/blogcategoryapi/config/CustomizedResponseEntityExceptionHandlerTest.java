@@ -2,19 +2,21 @@ package com.abeldevelop.blog.blogcategoryapi.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.HttpStatus;
-
 import com.abeldevelop.blog.blogcategoryapi.exception.client.custom.ValidationRequestException;
 import com.abeldevelop.blog.blogcategoryapi.interfaces.ErrorMessages;
 import com.abeldevelop.blog.blogcategoryapi.mapper.StackTraceMapper;
 import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+
+@ExtendWith(MockitoExtension.class)
 public class CustomizedResponseEntityExceptionHandlerTest {
 
 	private CustomizedResponseEntityExceptionHandler customizedResponseEntityExceptionHandler;
@@ -24,11 +26,13 @@ public class CustomizedResponseEntityExceptionHandlerTest {
 	
 	@Mock
 	private StackTraceMapper stackTraceMapper;
-	
-	@Before
+    
+    @Mock
+	private Environment environment;
+
+	@BeforeEach
 	public void setUp() {
-		customizedResponseEntityExceptionHandler = new CustomizedResponseEntityExceptionHandler(errorMessages, stackTraceMapper);
-		customizedResponseEntityExceptionHandler.addExceptionSensitiveInformation = true;
+		customizedResponseEntityExceptionHandler = new CustomizedResponseEntityExceptionHandler(environment, errorMessages, stackTraceMapper);
 	}
 	
 	@Test
@@ -39,7 +43,9 @@ public class CustomizedResponseEntityExceptionHandlerTest {
 				.detail(new RuntimeException().getClass().getCanonicalName())
 				.message("error")
 				.build();
-		
+        
+                
+        Mockito.when(environment.getActiveProfiles()).thenReturn(new String[]{"dev"});
 		ErrorResponseResource result = (ErrorResponseResource) customizedResponseEntityExceptionHandler.handleAllExceptions(new RuntimeException("error"), null).getBody();
 		
 	    assertThat(result.getStatus()).isEqualTo(expectedResutl.getStatus());
@@ -57,7 +63,8 @@ public class CustomizedResponseEntityExceptionHandlerTest {
 				.detail(new ValidationRequestException("error").getClass().getCanonicalName())
 				.message("error")
 				.build();
-		
+        
+        Mockito.when(environment.getActiveProfiles()).thenReturn(new String[]{"dev"});
 		ErrorResponseResource result = (ErrorResponseResource) customizedResponseEntityExceptionHandler.handleAllExceptions(new ValidationRequestException("error"), null).getBody();
 		
 	    assertThat(result.getStatus()).isEqualTo(expectedResutl.getStatus());

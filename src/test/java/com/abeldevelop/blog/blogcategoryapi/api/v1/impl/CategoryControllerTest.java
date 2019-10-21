@@ -4,13 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-
 import com.abeldevelop.blog.blogcategoryapi.domain.Category;
 import com.abeldevelop.blog.blogcategoryapi.domain.PageRequest;
 import com.abeldevelop.blog.blogcategoryapi.domain.PaginationRequest;
@@ -28,7 +21,14 @@ import com.abeldevelop.blog.blogcategoryapi.service.v1.DeleteCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.FindCategoryService;
 import com.abeldevelop.blog.blogcategoryapi.service.v1.UpdateCategoryService;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
 public class CategoryControllerTest {
 
 	@Mock
@@ -51,7 +51,7 @@ public class CategoryControllerTest {
 	
 	CategoryApiController categoryController;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		categoryController = new CategoryApiController(createCategoryService, updateCategoryService, deleteCategoryService, findCategoryService, categoryMapper, paginationMapper);
 	}
@@ -72,7 +72,7 @@ public class CategoryControllerTest {
 		CategoryResponseResource result = categoryController.executeCreate(createCategoryRequestResource);
 		
 		//then
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
 	@Test
@@ -91,7 +91,7 @@ public class CategoryControllerTest {
 		CategoryResponseResource result = categoryController.executeUpdate(code, updateCategoryRequestResource);
 		
 		//then
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 		
 	}
 	
@@ -122,7 +122,7 @@ public class CategoryControllerTest {
 		CategoryResponseResource result = categoryController.executeFindByCode("first-category");
 		
 		//then
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
 	@Test
@@ -154,6 +154,6 @@ public class CategoryControllerTest {
 		CategoryPaginationResponseResource result = categoryController.executeFindAll(1, 1, "");
 		
 		//then
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResult);
+		assertThat(result).isEqualToComparingFieldByField(expectedResult);
 	}
 }
