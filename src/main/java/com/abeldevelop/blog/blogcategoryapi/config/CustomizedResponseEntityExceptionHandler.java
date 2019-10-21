@@ -1,10 +1,17 @@
 package com.abeldevelop.blog.blogcategoryapi.config;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
+import com.abeldevelop.blog.blogcategoryapi.exception.AbelDevelopException;
+import com.abeldevelop.blog.blogcategoryapi.interfaces.ErrorMessages;
+import com.abeldevelop.blog.blogcategoryapi.mapper.StackTraceMapper;
+import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource;
+import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource.ErrorResponseResourceBuilder;
+
 import org.slf4j.helpers.MessageFormatter;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +22,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import com.abeldevelop.blog.blogcategoryapi.exception.AbelDevelopException;
-import com.abeldevelop.blog.blogcategoryapi.interfaces.ErrorMessages;
-import com.abeldevelop.blog.blogcategoryapi.mapper.StackTraceMapper;
-import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource;
-import com.abeldevelop.blog.blogcategoryapi.resource.ErrorResponseResource.ErrorResponseResourceBuilder;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +34,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
 private static final String ERROR_LOG_PREFIX = "ErrorResponseResource: {}";
 	
-	@Value("${add-exception-sensitive-information}")
-	protected boolean addExceptionSensitiveInformation;
-	
+	private final Environment environment;
 	private final ErrorMessages errorMessages;
 	private final StackTraceMapper stackTraceMapper;
 	
@@ -92,7 +91,7 @@ private static final String ERROR_LOG_PREFIX = "ErrorResponseResource: {}";
 	}
 	
 	private void addSensitiveInformation(Exception exception, ErrorResponseResourceBuilder errorResponseResourceBuilder) {
-		if(addExceptionSensitiveInformation) {
+		if(!Arrays.asList(environment.getActiveProfiles()).contains(Environments.PRO.getEnvironment())) {
 			if(exception.getCause() instanceof Exception) {
 				errorResponseResourceBuilder.cause(createErrorResponseResource((Exception) exception.getCause(), HttpStatus.INTERNAL_SERVER_ERROR));
 			}

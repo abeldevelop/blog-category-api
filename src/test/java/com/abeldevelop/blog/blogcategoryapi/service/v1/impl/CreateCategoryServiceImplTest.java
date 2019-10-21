@@ -1,15 +1,9 @@
 package com.abeldevelop.blog.blogcategoryapi.service.v1.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Optional;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import com.abeldevelop.blog.blogcategoryapi.domain.Category;
 import com.abeldevelop.blog.blogcategoryapi.entity.CategoryEntity;
@@ -17,7 +11,14 @@ import com.abeldevelop.blog.blogcategoryapi.exception.category.CategoryExistExce
 import com.abeldevelop.blog.blogcategoryapi.mapper.CategoryMapper;
 import com.abeldevelop.blog.blogcategoryapi.repository.CategoryRepository;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
 public class CreateCategoryServiceImplTest {
 
 	@Mock
@@ -28,7 +29,7 @@ public class CreateCategoryServiceImplTest {
 	
 	private CreateCategoryServiceImpl createCategoryServiceImpl;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		createCategoryServiceImpl = new CreateCategoryServiceImpl(categoryRepository, categoryMapper);
 	}
@@ -47,10 +48,10 @@ public class CreateCategoryServiceImplTest {
 		Category result = createCategoryServiceImpl.executeCreate(category);
 		
 		//then
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
-	@Test(expected = CategoryExistException.class)
+	@Test
 	public void executeCreateTestKo() {
 		//given
 		CategoryEntity expectedResutl = CategoryEntity.builder().code("first-category").name("First Category").build();
@@ -58,7 +59,7 @@ public class CreateCategoryServiceImplTest {
 		
 		//when
 		Mockito.when(categoryRepository.executeFindById(Mockito.any(String.class))).thenReturn(Optional.of(expectedResutl));
-		createCategoryServiceImpl.executeCreate(category);
+        assertThrows(CategoryExistException.class, () -> createCategoryServiceImpl.executeCreate(category));
 		
 		//then
 	}

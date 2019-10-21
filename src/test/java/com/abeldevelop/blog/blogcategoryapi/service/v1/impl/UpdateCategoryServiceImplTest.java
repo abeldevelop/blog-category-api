@@ -1,15 +1,9 @@
 package com.abeldevelop.blog.blogcategoryapi.service.v1.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Optional;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import com.abeldevelop.blog.blogcategoryapi.domain.Category;
 import com.abeldevelop.blog.blogcategoryapi.entity.CategoryEntity;
@@ -18,7 +12,14 @@ import com.abeldevelop.blog.blogcategoryapi.exception.category.CategoryNotFoundE
 import com.abeldevelop.blog.blogcategoryapi.mapper.CategoryMapper;
 import com.abeldevelop.blog.blogcategoryapi.repository.CategoryRepository;
 
-@RunWith(MockitoJUnitRunner.class)
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
 public class UpdateCategoryServiceImplTest {
 
 	@Mock
@@ -29,7 +30,7 @@ public class UpdateCategoryServiceImplTest {
 	
 	private UpdateCategoryServiceImpl updateCategoryServiceImpl;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		updateCategoryServiceImpl = new UpdateCategoryServiceImpl(categoryRepository, categoryMapper);
 	}
@@ -51,10 +52,10 @@ public class UpdateCategoryServiceImplTest {
 		Category result = updateCategoryServiceImpl.executeUpdate(code, category);
 		
 		//then
-		assertThat(result).isEqualToComparingFieldByFieldRecursively(expectedResutl);
+		assertThat(result).isEqualToComparingFieldByField(expectedResutl);
 	}
 	
-	@Test(expected = CategoryNotFoundException.class)
+	@Test
 	public void executeUpdateCategoryNotFoundTestKo() {
 		//given
 		String code = "first-category";
@@ -62,12 +63,12 @@ public class UpdateCategoryServiceImplTest {
 		
 		//when
 		Mockito.when(categoryRepository.executeFindById("first-category")).thenReturn(Optional.empty());
-		updateCategoryServiceImpl.executeUpdate(code, category);
+		assertThrows(CategoryNotFoundException.class, () -> updateCategoryServiceImpl.executeUpdate(code, category));
 		
 		//then
 	}
 	
-	@Test(expected = CategoryExistException.class)
+	@Test
 	public void executeUpdateCategoryExistTestKo() {
 		//given
 		CategoryEntity firstCategoryEntity = CategoryEntity.builder().code("first-category").name("First Category").build();
@@ -78,7 +79,7 @@ public class UpdateCategoryServiceImplTest {
 		//when
 		Mockito.when(categoryRepository.executeFindById("first-category")).thenReturn(Optional.of(firstCategoryEntity));
 		Mockito.when(categoryRepository.executeFindById("update-category")).thenReturn(Optional.of(expectedResutl));
-		updateCategoryServiceImpl.executeUpdate(code, category);
+		assertThrows(CategoryExistException.class, () -> updateCategoryServiceImpl.executeUpdate(code, category));
 		
 		//then
 	}
