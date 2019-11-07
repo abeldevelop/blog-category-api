@@ -1,4 +1,4 @@
-# Blog category API
+# Blog category API [![CircleCI](https://circleci.com/gh/abeldevelop/blog-categories-service.svg?style=svg)](https://circleci.com/gh/abeldevelop/blog-categories-service)
 Api to manage the categories for the blog application
 
 
